@@ -16,8 +16,10 @@ header{
     height: 92vh;
     padding: 30px;
     padding-left: 40px;
-    width: 300px;
+    width: 500px;
     background-color: rgb(241, 241, 241);
+    
+    /* display: inline-block; */
 }
 .slider ul{
     display: flex;
@@ -29,6 +31,170 @@ header{
     color:#225470;
     font-size: 1.2rem;
 }
+a{
+    text-decoration: none;
+}
+.slider ul a:hover{
+    color:red;
+}
 ul li{
     list-style: none;
+}
+main{
+    display: flex;
+}
+.container{
+    /* display: inline-block; */
+    padding: 50px;
+    /* width: calc(100%-350px); */
+    width: 100%;
+    /* background-color: green; */
+}
+
+.cards{
+    width: 100%;
+    /* background-color: teal; */
+    display: flex;
+    gap:70px;
+    /* justify-content: space-around; */
+}
+
+.course-card,.student-card,.sold-card{
+    width: 400px;
+    height: 250px;
+    background-color: red;
+    border-radius: 5px;
+    text-align: center;
+    color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 30px;
+}
+.student-card{
+    background-color: #1c1;
+}
+.sold-card{
+    background-color: #37e;
+}
+.cards .title{
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    padding: 6px;
+}
+.cards h1{
+    font-size: 3.5rem;
+}
+.cards a{
+    text-decoration: none;
+    color:white;
+
+}
+
+.order-detail-table{
+    width: 95%;
+    margin-top: 20px;
+    /* background-color: red; */
+}
+.order-detail-table caption{
+    background-color: black;
+    color:white;
+    font-weight: bold;
+    padding: 5px;
+    font-size: 1.1rem;
+    margin: 10px auto;
+}
+.order-detail-table th{
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 10px 0;
+
+}
+.order-detail-table td{
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Course Section Style */
+.course-detail-table{
+    width: 95%;
+    /* margin-top: 20px; */
+}
+.course-detail-table caption{
+    background-color: black;
+    color:white;
+    font-weight: bold;
+    padding: 5px 20px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.course-detail-table th{
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 10px 20px;
+    text-align: left;
+
+}
+.course-detail-table td{
+    padding: 10px 20px;
+    /* text-align: center; */
+}
+.add-course{
+    font-weight: bold;
+    font-size: 4rem;
+    color:red;
+    position: fixed;
+    right:50px;
+    bottom: 50px;
+}
+.add-course a{
+    color:red;
+}
+
+/* Add new Course Section Style */
+.add-new-course{
+    background-color: rgb(206, 206, 206);
+    width: 70%;
+    border-radius: 10px;
+    padding: 40px;
+}
+.add-new-course h1{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.add-new-course form{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.add-new-course form input{
+    padding: 10px;
+    border-radius: 5px;
+}
+textarea{
+    padding: 10px;
+    border-radius: 5px;
+    height: 100px;
+}
+.add-new-course table td input{
+    width: 95%;
+}
+.add-new-course .btns{
+    display: flex;
+    gap:20px;
+}
+.add-new-course .btns button{
+    width: 50%;
+    padding: 5px;
+    /* font-size: 1.1rem; */
+    font-size: 17px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: navy;
+    color:white;
+}
+.add-new-course .btns .close{
+    background-color: gray;
 }
