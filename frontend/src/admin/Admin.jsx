@@ -4,6 +4,7 @@ import Dashboard from './Dashboard'
 import "./AdminStyle.css"
 import Course from './Course'
 import AddNewCourse from './AddNewCourse'
+import UpdateCourse from './UpdateCourse'
 
 const Admin = () => {
   return (
@@ -32,6 +33,8 @@ const Admin = () => {
           <Route path="/" element={<Dashboard/>} />
           <Route path="course" element={<Course/>} />
           <Route path="addnewcourse" element={<AddNewCourse/>} />
+          <Route path="/admin/course/edit/:id" element={<UpdateCourse/>} />
+          {/* <Route path="edit/:id" element={<UpdateCourse/>} /> */}
         {/* <Dashboard/> */}
         {/* <Course/> */}
         {/* <AddNewCourse/> */}
