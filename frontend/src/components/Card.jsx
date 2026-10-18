@@ -1,7 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 const Card = (props) => {
+  const navigate=useNavigate()
+
   return (
     <div  className='card'>
       <img src={props.cardImg} alt="" />
@@ -11,7 +14,7 @@ const Card = (props) => {
         <span>
             Price : <s>₹ {props.originalPrice} </s> ₹ {props.price}
         </span>
-        <button className='btn'>Enroll</button>
+        <button className='btn' onClick={()=>navigate(`course-detail/${props.id}`)}>Enroll</button>
       </div>
     </div>
   )

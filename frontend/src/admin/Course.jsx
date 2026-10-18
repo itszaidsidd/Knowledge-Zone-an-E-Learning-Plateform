@@ -87,9 +87,8 @@ const Course = () => {
           }
         </tbody>
       </table>
-
-      <div className="add-course" style={{ marginTop: '20px', textAlign: 'center' }}>
-        <Link to="/admin/addnewcourse" title="Add New Course" style={{ fontSize: '32px', color: '#16a34a', display: 'inline-block' }}>
+      <div className="add-course">
+        <Link to="/admin/addnewcourse" title="Add New Course">
           <TiDocumentAdd />
         </Link>
       </div>

@@ -15,74 +15,74 @@ const UpdateCourse = () => {
 
   useEffect(() => {
     console.log(id)
-//     const fetchCourseData = async () => {
-//       try {
-//         let response = await fetch(`http://localhost:8080/course/${id}`);
-//         if (response.ok) {
-//           let course = await response.json();
-//           // react-hook-form के reset से पुराने डेटा से फॉर्म इनपुट भर जाएंगे
-//           reset({
-//             title: course.title,
-//             description: course.description,
-//             author: course.author,
-//             duration: course.duration,
-//             originalPrice: course.originalPrice,
-//             sellingPrice: course.sellingPrice,
-//           });
-//         }
-//       } catch (error) {
-//         console.error("Error fetching course data:", error);
-//       }
-//     };
+    const fetchCourseData = async () => {
+      try {
+        let response = await fetch(`http://localhost:8080/course/${id}`);
+        if (response.ok) {
+          let course = await response.json();
+          // react-hook-form के reset से पुराने डेटा से फॉर्म इनपुट भर जाएंगे
+          reset({
+            title: course.title,
+            description: course.description,
+            author: course.author,
+            duration: course.duration,
+            originalPrice: course.originalPrice,
+            sellingPrice: course.sellingPrice,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+      }
+    };
 
-//     fetchCourseData();
+    fetchCourseData();
   }, [id, reset]);
 
   const onSubmit = async (data) => {
-    // const updatedCourseData = {
-    //   title: data.title,
-    //   description: data.description,
-    //   author: data.author,
-    //   duration: data.duration,
-    //   originalPrice: Number(data.originalPrice),
-    //   sellingPrice: Number(data.sellingPrice),
-    // };
+    const updatedCourseData = {
+      title: data.title,
+      description: data.description,
+      author: data.author,
+      duration: data.duration,
+      originalPrice: Number(data.originalPrice),
+      sellingPrice: Number(data.sellingPrice),
+    };
 
-    // console.log("Updating Course Data:", updatedCourseData);
+    console.log("Updating Course Data:", updatedCourseData);
 
-    // try {
-    //   let response = await fetch(`http://localhost:8080/course/${id}`, {
-    //     method: 'PUT', 
-    //     body: JSON.stringify(updatedCourseData),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //   });
+    try {
+      let response = await fetch(`http://localhost:8080/course/${id}`, {
+        method: 'PUT', 
+        body: JSON.stringify(updatedCourseData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
 
-    //   if (!response.ok) {
-    //     console.error("Course update failed!");
-    //     return;
-    //   }
+      if (!response.ok) {
+        console.error("Course update failed!");
+        return;
+      }
 
-    // //   Image Update
-    //   if (data.imgUrl && data.imgUrl[0]) {
-    //     const formData = new FormData();
-    //     formData.append("file", data.imgUrl[0]);
+    //   Image Update
+      if (data.imgUrl && data.imgUrl[0]) {
+        const formData = new FormData();
+        formData.append("file", data.imgUrl[0]);
 
-    //     let imageResponse = await fetch(`http://localhost:8080/course/${id}/upload-image`, {
-    //       method: 'POST',
-    //       body: formData 
-    //     });
+        let imageResponse = await fetch(`http://localhost:8080/course/${id}/upload-image`, {
+          method: 'POST',
+          body: formData 
+        });
 
-    //     let imageResultText = await imageResponse.text();
-    //     console.log(imageResultText);
-    //   }
+        let imageResultText = await imageResponse.text();
+        console.log(imageResultText);
+      }
 
-    //   navigate('/admin/course');
+      navigate('/admin/course');
 
-    // } catch (error) {
-    //   console.error("Error during update:", error);
-    // }
+    } catch (error) {
+      console.error("Error during update:", error);
+    }
   }
 
   return (

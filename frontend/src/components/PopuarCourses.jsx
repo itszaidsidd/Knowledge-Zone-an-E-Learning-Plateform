@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from './Card'
 
-import card1Img from "../assets/images/ai.jpg"
-import card2Img from "../assets/images/guitar.jpg"
-import card3Img from "../assets/images/python.jpg"
-
 const PopuarCourses = () => {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        let response = await fetch('http://localhost:8080/course');
+        if (response.ok) {
+          let data = await response.json();
+          setCourses(data);
+        }
+      } catch (error) {
+        console.error("Error fetching popular courses:", error);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  const displayedCourses = courses.slice(0, 8);
+
   return (
     <div className='popular-courses'>
       <div className="tag-line">
@@ -16,18 +31,32 @@ const PopuarCourses = () => {
             <li>Money Back Guarted</li>
         </ul>
       </div>
+      
       <h1>Popular Courses</h1>
+      
       <div className="cards">
-        <Card title="Learn Ai in Easy way" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card1Img} price={1500} originalPrice={2000}/>
-        <Card title="Learn Guitar easy way" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card2Img} price={1800} originalPrice={2500}/>
-        <Card title="Learn Python" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card3Img} price={1000} originalPrice={1500}/>
-        <Card title="Learn Ai in Easy way" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card1Img} price={1500} originalPrice={2000}/>
-        <Card title="Learn Guitar easy way" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card2Img} price={1800} originalPrice={2500}/>
-        <Card title="Learn Python" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. " cardImg={card3Img} price={1000} originalPrice={1500}/>
+        {
+          displayedCourses.length > 0 ? (
+            displayedCourses.map((course) => (
+              <Card 
+                key={course.id}
+                id={course.id}
+                title={course.title} 
+                content={course.description} 
+                cardImg={course.imgUrl ? `http://localhost:8080${course.imgUrl}` : ""} 
+                price={course.sellingPrice} 
+                originalPrice={course.originalPrice}
+              />
+            ))
+          ) : (
+            <p style={{ textAlign: 'center', width: '100%', color: '#64748b' }}>No courses available right now.</p>
+          )
+        }
       </div>
+      
       <button className="btn-view">View All Courses</button>
     </div>
   )
 }
 
-export default PopuarCourses
+export default PopuarCourses;

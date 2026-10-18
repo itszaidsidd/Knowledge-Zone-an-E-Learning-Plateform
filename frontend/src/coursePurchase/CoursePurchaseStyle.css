@@ -1,0 +1,165 @@
+.course-detail-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 70px auto;
+  font-family: "Martel Sans", sans-serif;
+}
+
+.course-detail-card {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.course-detail-img {
+  width: 280px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.course-detail-info h2 {
+  color: #1e40af;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+}
+
+.course-detail-info p {
+  color: #475569;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.btn-buy-now {
+  padding: 10px 25px;
+  background-color: #1e40af;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+
+.btn-buy-now:hover {
+  background-color: #1d4ed8;
+}
+
+/* Lessons Table Styling */
+.lessons-table-box {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lessons-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lessons-table th {
+  background: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+  text-align: left;
+  padding: 12px 20px;
+  color: #1e293b;
+}
+
+.lessons-table td {
+  padding: 12px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.lesson-title-cell {
+  color: #1e40af;
+  font-weight: 500;
+}
+
+/* Checkout Page Styling */
+.checkout-wrapper {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6;
+  font-family: "Martel Sans", sans-serif;
+  margin-top: 60px;
+}
+
+.checkout-box {
+  background: #e0f2fe;
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px solid #bae6fd;
+  width: 450px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.checkout-box h2 {
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.4rem;
+}
+
+.checkout-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkout-form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-form-group label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.checkout-form-group input {
+  padding: 8px 12px;
+  width: 250px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.checkout-btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: flex-end;
+}
+
+.btn-checkout-submit {
+  padding: 10px 20px;
+  background-color: #1e40af;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-checkout-cancel {
+  padding: 10px 20px;
+  background-color: #64748b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}

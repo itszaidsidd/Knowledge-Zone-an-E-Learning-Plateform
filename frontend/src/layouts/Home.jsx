@@ -6,6 +6,7 @@ import PopuarCourses from '../components/PopuarCourses'
 import ContactUs from '../components/ContactUs'
 import Feedback from '../components/Feedback'
 import Footer from '../components/Footer'
+import AdminLogin from '../components/AdminLogin'
 
 
 const Home = () => {
