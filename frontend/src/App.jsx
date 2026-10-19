@@ -8,6 +8,8 @@ import StudentSignup from './components/StudentSignup'
 import StudentPanel from './student/StudentPanel'
 import CheckoutPage from './coursePurchase/CheckoutPage'
 import CourseDetail from './coursePurchase/CourseDetail'
+import Courses from './layouts/Courses'
+import StudentPaymentStatus from './components/StudentPaymentStatus'
 
 // Protected Route component jo check karega ki admin logged in hai ya nahi
 const ProtectedRoute = ({ children }) => {
@@ -20,6 +22,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/courses" element={<Courses/>} />
+        <Route path="/payment-status" element={<StudentPaymentStatus/>} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/student/login" element={<StudentLogin />} />

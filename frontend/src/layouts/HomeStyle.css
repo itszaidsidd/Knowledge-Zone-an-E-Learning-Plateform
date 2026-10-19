@@ -12,125 +12,6 @@ body {
 }
 
 /* Navbar Style */
-
-/* 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 8%;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  transition: all 0.3s ease;
-}
-
-nav .logo {
-  display: flex;
-  gap: 15px;
-  color: #fff;
-  align-items: center;
-}
-
-nav .logo .title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
-nav ul {
-  display: flex;
-  gap: 35px;
-  align-items: center;
-}
-
-nav ul li {
-  list-style: none;
-}
-
-nav a {
-  color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
-  font-size: 1.05rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  transition: all 0.3s ease;
-}
-
-nav a:hover {
-  color: #fde047;
-}
-
-nav a.active {
-  color: #fde047;
-}
-
-.vid {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.vid .vid-overly {
-  background-color: #225470;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
-}
-
-.vid .vid-content {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  color: white;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vid .vid-content h1 {
-  font-family: cambria;
-  font-size: 3.2rem;
-}
-
-.vid .vid-content .btn {
-
-  padding: 12px 28px;
-  background-color: #1e40af;
-  border-radius: 6px;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
-  transition: all 0.3s ease;
-}
-
-
-   */
-
-
-/* Navbar Style */
 nav {
   display: flex;
   justify-content: space-between;
@@ -160,6 +41,9 @@ nav .logo .title {
   font-weight: 800;
   color: #fff;
   letter-spacing: 1px;
+}
+nav .logo .title:hover {
+  cursor: pointer;
 }
 
 nav .logo .subtitle {
@@ -297,13 +181,26 @@ nav a.active {
 .popular-courses .tag-line ul {
   display: flex;
   justify-content: space-around;
-  font-size: 16px;
-  padding: 12px 0;
+  flex-wrap: wrap;
+  gap: 15px;
+  list-style: none;
+  padding: 5px;
 }
 
 .popular-courses .tag-line ul li {
-  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: white;
 }
+
+.tag-icon {
+  color: white;
+  font-size: 18px;
+}
+
+
 
 .popular-courses h1 {
   font-size: 2.5rem;
@@ -509,31 +406,215 @@ nav a.active {
 }
 
 /* Feedback Section Style */
-.feedback {
 
-  padding: 10px 20px;
-  width: 100%;
+.feedback-section {
   background-color: #225470;
-  color: white;
+  padding: 40px 20px;
+  color: #ffffff;
   text-align: center;
+  width: 100%;
 }
 
-/* Footer Section Style */
-.footer {
-  background-color: #1e293b;
-  color: #94a3b8;
-  font-weight: 500;
-  text-align: center;
+.feedback-main-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.feedback-carousel-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-cards-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feedback-card {
+  background: transparent;
+  border: 1px solid #4a7c9d;
+  border-radius: 6px;
   padding: 20px;
-  font-size: 1rem;
-  border-top: 1px solid #334155;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 
-.footer p span:hover {
+.feedback-message-box {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  width: 100%;
+  text-align: left;
+}
+
+.feedback-message-box p {
+  font-size: 14px;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.student-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 2px solid #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e2e8f0;
+  color: #1e293b;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.student-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #facc15; /* Yellow highlight like screenshot */
+  margin: 5px 0 2px 0;
+}
+
+.student-designation {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+/* Navigation Arrow Buttons */
+.feedback-nav-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.nav-arrow-btn {
+  background-color: #dc2626; /* Red arrow box matching screenshot */
+  color: #ffffff;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
   cursor: pointer;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background 0.2s;
 }
 
+.nav-arrow-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Footer Complete Styles */
+.footer-container {
+  width: 100%;
+  background-color: #ffffff;
+  color: #333333;
+  font-family: Arial, sans-serif;
+}
+
+/* Red Social Bar */
+.footer-social-bar {
+  background: #ef4444;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footer-social-bar .social-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-social-bar .social-link:hover {
+  text-decoration: underline;
+}
+
+/* Footer Content Columns */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.footer-section h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #111827;
+}
+
+.footer-section p, .footer-section ul {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+/* Footer Bottom Copyright Bar */
+.footer-bottom {
+  background-color: #f3f4f6;
+  padding: 15px 20px;
+  text-align: center;
+  border-top: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #374151;
+}
+
+.admin-login-link {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-login-link:hover {
+  text-decoration: underline;
+}
 
 .admin-login {
   display: flex;
@@ -651,49 +732,12 @@ nav a.active {
     font-size: 15px;
   }
 
-  /* nav {
-    flex-direction: column;
-    gap: 12px;
-    padding: 15px 20px;
-    position: relative;
-    background-color: #225470;
-  }
-
-  nav .logo .title {
-    font-size: 24px;
-  }
-
-  nav ul {
-    width: 100%;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-
-  nav a {
-    font-size: 0.95rem;
-    padding: 4px 8px;
-  }
-
-  .vid {
-    height: 65vh;
-  }
-
-  .vid .vid-content h1 {
-    font-size: 2.2rem;
-  }
-
-  .vid .vid-content .btn {
-    padding: 10px 22px;
-    font-size: 16px;
-  } */
-
-  /* Popular Courses Mobile */
 
   .popular-courses .tag-line ul {
     flex-direction: column;
     gap: 8px;
     padding: 10px 0;
+    align-items: center;
   }
 
   .popular-courses h1 {
@@ -729,5 +773,9 @@ nav a.active {
     width: 100%;
     min-height: auto;
     padding: 40px 20px;
+  }
+  .footer-social-bar{
+    flex-wrap: wrap;
+    flex-direction: column;
   }
 }

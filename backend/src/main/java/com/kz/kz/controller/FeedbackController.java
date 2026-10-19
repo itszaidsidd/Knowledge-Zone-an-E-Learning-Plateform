@@ -41,6 +41,16 @@ public class FeedbackController {
     public List<Feedback> getAllFeedbacks() {
         return feedbackRepository.findAll();
     }
+
+    // Delete Feedback API
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFeedback(@PathVariable Long id) {
+        if(feedbackRepository.existsById(id)) {
+            feedbackRepository.deleteById(id);
+            return ResponseEntity.ok("Feedback deleted successfully");
+        }
+        return ResponseEntity.status(404).body("Feedback not found");
+    }
 }
 
 class FeedbackRequest {

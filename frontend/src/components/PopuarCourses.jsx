@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Card from './Card'
+import React, { useEffect, useState } from 'react';
+import Card from './Card';
+import { FaBookReader, FaChalkboardTeacher, FaInfinity, FaShieldAlt } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const PopuarCourses = () => {
+const PopularCourses = () => {
   const [courses, setCourses] = useState([]);
+  const navigate=useNavigate()
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -25,10 +28,10 @@ const PopuarCourses = () => {
     <div className='popular-courses'>
       <div className="tag-line">
         <ul>
-            <li>100+ Online Courses</li>
-            <li>Expert Instructions</li>
-            <li>Lifetime Access</li>
-            <li>Money Back Guarted</li>
+          <li><FaBookReader className="tag-icon" /> 100+ Online Courses</li>
+          <li><FaChalkboardTeacher className="tag-icon" /> Expert Instructions</li>
+          <li><FaInfinity className="tag-icon" /> Lifetime Access</li>
+          <li><FaShieldAlt className="tag-icon" /> Money Back Guaranteed</li>
         </ul>
       </div>
       
@@ -49,14 +52,14 @@ const PopuarCourses = () => {
               />
             ))
           ) : (
-            <p style={{ textAlign: 'center', width: '100%', color: '#64748b' }}>No courses available right now.</p>
+            <p className="no-courses-text">No courses available right now.</p>
           )
         }
       </div>
       
-      <button className="btn-view">View All Courses</button>
+      <button className="btn-view" onClick={()=>{navigate('/courses')}}>View All Courses</button>
     </div>
   )
 }
 
-export default PopuarCourses;
+export default PopularCourses;

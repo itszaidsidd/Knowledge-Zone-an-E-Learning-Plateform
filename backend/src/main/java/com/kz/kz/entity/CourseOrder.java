@@ -26,8 +26,9 @@ public class CourseOrder {
     @Column(name = "amount")
     private Double amount;
 
-    @Column(name = "course_id")
-    private Long courseId;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate = LocalDateTime.now();

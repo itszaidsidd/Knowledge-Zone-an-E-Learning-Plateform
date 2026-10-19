@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Agar react-icons installed hain
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Password show/hide state
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -26,6 +26,9 @@ const AdminLogin = () => {
 
       if (response.ok) {
         localStorage.setItem("isAdminLoggedIn", "true");
+        // Yahan admin ka username localstorage mein save kar rahe hain change password ke liye
+        localStorage.setItem("adminUsername", data.username);
+        
         navigate('/admin'); 
       } else {
         let errorText = await response.text();
@@ -61,7 +64,6 @@ const AdminLogin = () => {
               placeholder="Enter password" 
               style={{ width: '100%', paddingRight: '40px' }}
             />
-            {/* Show / Hide Toggle Button inside input */}
             <span 
               onClick={() => setShowPassword(!showPassword)}
               style={{
@@ -82,7 +84,6 @@ const AdminLogin = () => {
           <div className="btns" style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <button type="submit" className='submit' style={{ width: '100%' }}>Login</button>
             
-            {/* Back to Home Link */}
             <Link 
               to="/" 
               style={{ 

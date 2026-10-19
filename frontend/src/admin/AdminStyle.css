@@ -195,6 +195,8 @@ ul li {
 
 .add-new-course form input[type="text"],
 .add-new-course form input[type="number"],
+.add-new-course form input[type="password"],
+.add-new-course form input[type="email"],
 .add-new-course form input[type="file"] {
     width: 100%;
     padding: 10px 12px;
@@ -271,6 +273,78 @@ ul li {
 .course-filter-dropdown label{
     font-weight: bold;
     color: #225470
+}
+
+/* Payment Status Component Styles */
+.payment-status-container {
+  width: 100%;
+}
+
+.payment-header-section {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.payment-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.payment-search-box .search-icon {
+  position: absolute;
+  left: 10px;
+  color: #64748b;
+  font-size: 18px;
+}
+
+.payment-search-box input {
+  padding: 8px 12px 8px 35px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  width: 260px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.payment-search-box input:focus {
+  border-color: #225470;
+}
+
+.success-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #dcfce7;
+  color: #166534;
+  display: inline-block;
+}
+
+.delete-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-action-btn:hover {
+  opacity: 0.8;
+}
+
+.no-records-cell {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
 }
 
 /* ==========================================

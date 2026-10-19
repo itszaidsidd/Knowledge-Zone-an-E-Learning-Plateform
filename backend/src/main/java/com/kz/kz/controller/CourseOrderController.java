@@ -31,14 +31,24 @@ public class CourseOrderController {
         return ResponseEntity.ok("Order placed and saved successfully!");
     }
 
-    // @GetMapping("/student-orders/{email}")
-    // public List<CourseOrder> getOrdersByStudentEmail(@PathVariable String email) {
-    //     return (List<CourseOrder>) orderRepository.findByStudentEmail(email);
-    // }
-
     @GetMapping("/student-orders/{email}")
     public ResponseEntity<List<CourseOrder>> getOrdersByStudentEmail(@PathVariable("email") String email) {
         List<CourseOrder> orders = (List<CourseOrder>) orderRepository.findByStudentEmail(email);
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping
+    public List<CourseOrder> getAllCourseOrders(){
+        return orderRepository.findAll();
+    }
+
+    // Delete Course Order API (Admin panel se galat purchase delete karne ke liye)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
+        if(orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
+            return ResponseEntity.ok("Order deleted successfully");
+        }
+        return ResponseEntity.status(404).body("Order not found");
     }
 }

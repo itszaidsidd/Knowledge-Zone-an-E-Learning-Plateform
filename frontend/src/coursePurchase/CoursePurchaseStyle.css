@@ -1,6 +1,7 @@
 .course-detail-container {
   padding: 40px;
   max-width: 1000px;
+  /* min-height: 77vh; */
   margin: 70px auto;
   font-family: "Martel Sans", sans-serif;
 }
@@ -162,4 +163,58 @@
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .course-detail-container {
+    padding: 15px;
+    margin: 80px 10px;
+    /* min-height: 73vh; */
+  }
+
+  .course-detail-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .course-detail-img {
+    width: 100%;
+    height: auto;
+  }
+
+  .lessons-table-box {
+    overflow-x: auto;
+  }
+
+  .checkout-wrapper {
+    padding: 15px;
+    margin-top: 30px;
+    min-height: auto;
+  }
+
+  .checkout-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .checkout-form-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .checkout-form-group input {
+    width: 100%;
+  }
+
+  .checkout-btn-group {
+    flex-direction: column;
+  }
+
+  .btn-checkout-submit,
+  .btn-checkout-cancel {
+    width: 100%;
+  }
 }
