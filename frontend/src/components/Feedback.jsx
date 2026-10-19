@@ -54,9 +54,6 @@ const Feedback = () => {
                   const designation = item.designation || item.role || item.student?.designation || "Student";
                   const message = item.feedbackText || item.message || item.comment || "";
                   
-                  // Saare possible image properties check ki ja rahi hain taaki image miss na ho
-                  // const rawImgUrl = item.imgUrl || item.imageUrl || item.image || item.profileImg || item.student?.imgUrl || item.student?.profileImg || "";
-                  // const imgUrl = rawImgUrl ? (rawImgUrl.startsWith('http') ? rawImgUrl : `http://localhost:8080${rawImgUrl}`) : "";
                   const imgUrl =  `http://localhost:8080${item.student.profilePicUrl}`;
 
                   return (

@@ -33,11 +33,14 @@ const CheckoutPage = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      // FIX: 'courseId' ki jagah 'course: { id: course?.id }' pass kiya hai
       let orderPayload = {
         orderId: data.orderId,
         studentEmail: data.studentEmail,
         amount: parseFloat(data.amount),
-        courseId: course?.id 
+        course: {
+          id: course?.id
+        }
       };
 
       let res = await fetch(`http://localhost:8080/order/save`, {
@@ -47,7 +50,6 @@ const CheckoutPage = () => {
       });
 
       if (res.ok) {
-        // alert("Payment Successful & Order Saved!");
         navigate('/student/courses');
       } else {
         alert("Failed to process payment order.");
@@ -90,7 +92,9 @@ const CheckoutPage = () => {
             </button>
           </div>
 
-          <p style={{ fontSize: '0.8rem', color: '#475569', textAlign: 'center', marginTop: '10px' }}>Note: Complete Payment by Checking by Checkout Button</p>
+          <p style={{ fontSize: '0.8rem', color: '#475569', textAlign: 'center', marginTop: '10px' }}>
+            Note: Complete Payment by Checking by Checkout Button
+          </p>
         </form>
       </div>
     </div>

@@ -21,7 +21,6 @@ public class AdminController {
             return ResponseEntity.ok("Login Successful");
         }
 
-        // Database check
         Admin admin = adminRepository.findByUsername(loginData.getUsername());
         if (admin != null && admin.getPassword().equals(loginData.getPassword())) {
             return ResponseEntity.ok("Login Successful");
@@ -30,7 +29,6 @@ public class AdminController {
         return ResponseEntity.status(401).body("Invalid Username or Password");
     }
 
-    // Change Password API for Admin using Username instead of ID
     @PutMapping("/change-password/{username}")
     public ResponseEntity<String> changePassword(@PathVariable String username, @RequestBody AdminPasswordChangeRequest request) {
         Admin admin = adminRepository.findByUsername(username);
@@ -48,7 +46,6 @@ public class AdminController {
     }
 }
 
-// Helper class for Admin Password Change request payload
 class AdminPasswordChangeRequest {
     private String oldPassword;
     private String newPassword;

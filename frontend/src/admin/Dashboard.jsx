@@ -99,7 +99,7 @@ const Dashboard = () => {
             orders.map((order) => (
               <tr key={order.id || order.orderId}>
                 <td>{order.orderId}</td>
-                <td>{order.courseId}</td>
+                <td>{order.course?.id}</td>
                 <td>{order.studentEmail}</td>
                 <td>{order.orderDate ? new Date(order.orderDate).toLocaleDateString() : 'N/A'}</td>
                 <td>₹{order.amount}</td>

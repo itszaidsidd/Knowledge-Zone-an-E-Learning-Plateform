@@ -3,8 +3,10 @@ package com.kz.kz.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.kz.kz.entity.Course;
 import com.kz.kz.entity.CourseOrder;
 import com.kz.kz.repository.CourseOrderRepository;
+import com.kz.kz.repository.CourseRepository; // Course repository import karein
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +19,9 @@ public class CourseOrderController {
     @Autowired
     private CourseOrderRepository orderRepository;
 
+    @Autowired
+    private CourseRepository courseRepository; // Course repository inject karein
+
     // Generate New Order ID for Checkout
     @GetMapping("/generate-order-id")
     public ResponseEntity<String> generateOrderId() {
@@ -24,16 +29,24 @@ public class CourseOrderController {
         return ResponseEntity.ok(uniqueOrderId);
     }
 
-    // Save Completed Course Order
+    // Save Completed Course Order (FIXED)
     @PostMapping("/save")
     public ResponseEntity<String> saveOrder(@RequestBody CourseOrder order) {
+        // Agar frontend se order object mein course ki ID ya object aa raha hai, toh ensure karein ki Course database se link ho
+        if (order.getCourse() != null && order.getCourse().getId() != null) {
+            Course course = courseRepository.findById(order.getCourse().getId()).orElse(null);
+            if (course != null) {
+                order.setCourse(course);
+            }
+        }
+        
         orderRepository.save(order);
         return ResponseEntity.ok("Order placed and saved successfully!");
     }
 
     @GetMapping("/student-orders/{email}")
     public ResponseEntity<List<CourseOrder>> getOrdersByStudentEmail(@PathVariable("email") String email) {
-        List<CourseOrder> orders = (List<CourseOrder>) orderRepository.findByStudentEmail(email);
+        List<CourseOrder> orders = orderRepository.findByStudentEmail(email);
         return ResponseEntity.ok(orders);
     }
 
@@ -42,7 +55,7 @@ public class CourseOrderController {
         return orderRepository.findAll();
     }
 
-    // Delete Course Order API (Admin panel se galat purchase delete karne ke liye)
+    // Delete Course Order API
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         if(orderRepository.existsById(id)) {

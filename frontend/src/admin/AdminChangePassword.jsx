@@ -21,7 +21,6 @@ const AdminChangePassword = () => {
     setError('');
     setSuccess('');
 
-    // LocalStorage se logged-in admin ka username lena
     const adminUsername = localStorage.getItem('adminUsername');
 
     if (!adminUsername) {

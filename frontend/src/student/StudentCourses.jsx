@@ -29,11 +29,10 @@ const StudentCourses = () => {
         let orders = await orderRes.json();
         console.log("Fetched Orders for student:", orders);
         
-        // Extract purchased course IDs (String/Number safe conversion)
-        let purchasedCourseIds = orders.map(order => Number(order.courseId));
+
+        let purchasedCourseIds = orders.map(order => Number(order.course?.id || order.courseId));
         console.log("Purchased Course IDs:", purchasedCourseIds);
 
-        // 2. Fetch all courses
         let courseRes = await fetch(`http://localhost:8080/course`);
         if (!courseRes.ok) {
           console.error("Failed to fetch all courses");
