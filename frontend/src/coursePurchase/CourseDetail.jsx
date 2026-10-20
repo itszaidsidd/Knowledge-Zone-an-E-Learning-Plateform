@@ -42,7 +42,6 @@ const CourseDetail = () => {
       alert("Please login first to purchase the course!");
       navigate('/student/login');
     } else {
-      //   navigate(`/checkout/${course.id}`, { state: { course } });
       navigate(`/checkout/${courseId}`, { state: { course } });
     }
   };
@@ -53,7 +52,6 @@ const CourseDetail = () => {
     <div>
       <Navbar />
       <div className="course-detail-container">
-        {/* Course Detail Card */}
         <div className="course-detail-card">
           <img
             src={course.imgUrl ? course.imgUrl : "https://via.placeholder.com/250"}
@@ -71,7 +69,6 @@ const CourseDetail = () => {
           </div>
         </div>
 
-        {/* Lessons Table */}
         <div className="lessons-table-box">
           <table className="lessons-table">
             <thead>

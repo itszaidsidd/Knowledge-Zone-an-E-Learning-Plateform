@@ -2,4 +2,6 @@ const isLocal = window.location.hostname === 'localhost' || window.location.host
 
 export const API_BASE_URL = isLocal 
     ? "http://localhost:8080" 
-    : "https://apka-render-backend-url.onrender.com"; 
+    : "https://knowledge-zone-an-e-learning-plateform.onrender.com"; 
+
+// export const API_BASE_URL = "https://knowledge-zone-an-e-learning-plateform.onrender.com"; 

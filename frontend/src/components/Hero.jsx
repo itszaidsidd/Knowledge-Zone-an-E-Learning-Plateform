@@ -6,7 +6,6 @@ import {API_BASE_URL} from '../apiConfig'
 const Hero = () => {
   const navigate = useNavigate();
 
-  // Check karte hain ki student logged in hai ya nahi
   const isStudentLoggedIn = localStorage.getItem("isStudentLoggedIn") === "true";
 
   return (
@@ -15,14 +14,12 @@ const Hero = () => {
         <source src={vid} type="video/mp4"/>
       </video>
       
-      {/* Overlay ka color default (neela) hi rahega */}
       <div className="vid-overly"></div>
 
       <div className="vid-content">
         <h1>Knowledge Zone</h1>
         <span>Learn and Implements</span>
 
-        {/* Agar logged in hai toh Profile button green color ke sath dikhega */}
         {isStudentLoggedIn ? (
           <button 
             className='btn' 

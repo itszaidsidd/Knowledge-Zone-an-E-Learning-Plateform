@@ -27,7 +27,6 @@ const AdminLogin = () => {
 
       if (response.ok) {
         localStorage.setItem("isAdminLoggedIn", "true");
-        // Yahan admin ka username localstorage mein save kar rahe hain change password ke liye
         localStorage.setItem("adminUsername", data.username);
         
         navigate('/admin'); 

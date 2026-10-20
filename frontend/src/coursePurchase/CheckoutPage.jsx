@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './CoursePurchaseStyle.css';
-import {API_BASE_URL} from '../apiConfig'
+import { API_BASE_URL } from '../apiConfig';
 
 const CheckoutPage = () => {
   const { register, handleSubmit, setValue } = useForm();
@@ -12,6 +12,7 @@ const CheckoutPage = () => {
   
   const studentEmail = localStorage.getItem("studentUsername") || "user@gmail.com";
   const [loading, setLoading] = useState(false);
+  const [generatedOrderId, setGeneratedOrderId] = useState(""); 
 
   useEffect(() => {
     const fetchOrderId = async () => {
@@ -19,7 +20,8 @@ const CheckoutPage = () => {
         let res = await fetch(`${API_BASE_URL}/order/generate-order-id`);
         if (res.ok) {
           let orderId = await res.text();
-          setValue("orderId", orderId);
+          setGeneratedOrderId(orderId); 
+          setValue("orderId", orderId);  
         }
       } catch (err) {
         console.error("Error generating order id:", err);
@@ -34,11 +36,10 @@ const CheckoutPage = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      // FIX: 'courseId' ki jagah 'course: { id: course?.id }' pass kiya hai
       let orderPayload = {
-        orderId: data.orderId,
-        studentEmail: data.studentEmail,
-        amount: parseFloat(data.amount),
+        orderId: generatedOrderId, 
+        studentEmail: studentEmail,
+        amount: parseFloat(course?.sellingPrice || 700),
         course: {
           id: course?.id
         }
@@ -51,7 +52,14 @@ const CheckoutPage = () => {
       });
 
       if (res.ok) {
-        navigate('/student/courses');
+        navigate('/payment-status', { 
+          state: { 
+            orderId: generatedOrderId, 
+            amount: course?.sellingPrice || 700, 
+            course: course,
+            studentEmail: studentEmail 
+          } 
+        });
       } else {
         alert("Failed to process payment order.");
       }
@@ -71,22 +79,22 @@ const CheckoutPage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="checkout-form-grid">
           <div className="checkout-form-group">
             <label>Order Id</label>
-            <input type="text" {...register("orderId")} disabled />
+            <input type="text" {...register("orderId")} readOnly />
           </div>
 
           <div className="checkout-form-group">
             <label>Student Email</label>
-            <input type="text" {...register("studentEmail")} disabled />
+            <input type="text" {...register("studentEmail")} readOnly />
           </div>
 
           <div className="checkout-form-group">
             <label>Amount</label>
-            <input type="text" {...register("amount")} disabled />
+            <input type="text" {...register("amount")} readOnly />
           </div>
 
           <div className="checkout-btn-group">
             <button type="submit" disabled={loading} className="btn-checkout-submit">
-              {loading ? "Processing..." : "Chekcout"}
+              {loading ? "Processing..." : "Checkout"}
             </button>
             <button type="button" onClick={() => navigate(-1)} className="btn-checkout-cancel">
               Cancel
@@ -94,7 +102,7 @@ const CheckoutPage = () => {
           </div>
 
           <p style={{ fontSize: '0.8rem', color: '#475569', textAlign: 'center', marginTop: '10px' }}>
-            Note: Complete Payment by Checking by Checkout Button
+            Note: Complete Payment by Clicking Checkout Button
           </p>
         </form>
       </div>

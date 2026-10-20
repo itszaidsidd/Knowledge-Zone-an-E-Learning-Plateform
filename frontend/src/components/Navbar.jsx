@@ -7,7 +7,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Check karte hain ki student logged in hai ya nahi
   const isStudentLoggedIn = localStorage.getItem("isStudentLoggedIn") === "true";
 
   const toggleMenu = () => {
@@ -24,7 +23,7 @@ const Navbar = () => {
     localStorage.removeItem("studentUsername");
     localStorage.removeItem("studentName");
     navigate('/');
-    window.location.reload(); // Page refresh karke navbar state update karne ke liye
+    window.location.reload(); 
   };
 
   return (
@@ -34,18 +33,15 @@ const Navbar = () => {
         <span className='subtitle'>Learn and Implements</span>
       </div>
 
-      {/* Mobile Menu Toggle Icon */}
       <div className="menu-toggle" onClick={toggleMenu}>
         {isOpen ? <RiCloseLine /> : <RiMenu3Line />}
       </div>
 
-      {/* Navigation Links */}
       <ul className={isOpen ? "open" : ""}>
         <li><Link to="/" onClick={closeMenu}>Home</Link></li>
         <li><Link to="/courses" onClick={closeMenu}>Courses</Link></li>
         <li><Link to="/payment-status" onClick={closeMenu}>Payment Status</Link></li>
 
-        {/* Agar Student Logged In hai toh Profile aur Logout dikhega, warna Login aur Sign up */}
         {isStudentLoggedIn ? (
           <>
             <li><Link to="/student/profile" onClick={closeMenu}>Profile</Link></li>

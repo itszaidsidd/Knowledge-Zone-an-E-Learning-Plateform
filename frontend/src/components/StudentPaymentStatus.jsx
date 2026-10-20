@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import './StudentPaymentStatusStyle.css'
+import './StudentPaymentStatusStyle.css';
 import { MdSearch, MdPrint } from "react-icons/md";
-import {API_BASE_URL} from '../apiConfig'
+import { API_BASE_URL } from '../apiConfig';
+import { useLocation } from 'react-router-dom';
 
 const StudentPaymentStatus = () => {
   const [orderIdInput, setOrderIdInput] = useState('');
   const [orderDetails, setOrderDetails] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
-  // Order ID se backend se payment/order details fetch karna
-  const handleSearchOrder = async (e) => {
-    e.preventDefault();
-    if (!orderIdInput.trim()) {
-      setError("Please enter a valid Order ID.");
-      return;
+  useEffect(() => {
+    const passedOrderId = location.state?.orderId;
+    if (passedOrderId) {
+      setOrderIdInput(passedOrderId);
+      fetchOrderDetailsDirectly(passedOrderId);
     }
+  }, [location.state]);
 
+  const fetchOrderDetailsDirectly = async (targetOrderId) => {
     setLoading(true);
     setError('');
-    setOrderDetails(null);
-
     try {
-      // Saare orders fetch karke matching order dhoondh rahe hain (ya aap backend par /order/{orderId} endpoint bhi bana sakte hain)
       let response = await fetch(`${API_BASE_URL}/order`);
       if (response.ok) {
         let orders = await response.json();
-        // Order ID match karna (case-insensitive)
         const foundOrder = orders.find(
-          (item) => (item.orderId || '').toLowerCase() === orderIdInput.trim().toLowerCase() || item.id == orderIdInput.trim()
+          (item) => (item.orderId || '').toLowerCase() === targetOrderId.trim().toLowerCase() || item.id == targetOrderId.trim()
         );
 
         if (foundOrder) {
@@ -47,6 +46,15 @@ const StudentPaymentStatus = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearchOrder = async (e) => {
+    e.preventDefault();
+    if (!orderIdInput.trim()) {
+      setError("Please enter a valid Order ID.");
+      return;
+    }
+    fetchOrderDetailsDirectly(orderIdInput);
   };
 
   const handlePrint = () => {
@@ -68,7 +76,6 @@ const StudentPaymentStatus = () => {
 
   return (
     <div className="student-payment-page">
-      {/* Navbar ko print me hide karne ke liye class ya CSS use hogi */}
       <div className="no-print">
         <Navbar />
       </div>
@@ -96,7 +103,6 @@ const StudentPaymentStatus = () => {
           {error && <div className="error-alert-msg">{error}</div>}
         </div>
 
-        {/* Invoice / Bill Section (Ye print me aayega) */}
         {orderDetails && (
           <div className="invoice-container">
             <div className="invoice-header">
@@ -131,7 +137,7 @@ const StudentPaymentStatus = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{orderDetails.courseTitle || orderDetails.courseName || orderDetails.course?.title || `Course ID: ${orderDetails.courseId}`}</td>
+                  <td>{orderDetails.courseTitle || orderDetails.courseName || orderDetails.course?.title || `Course ID: ${orderDetails.course?.id || orderDetails.courseId}`}</td>
                   <td>E-Learning Course Purchase</td>
                   <td>₹{orderDetails.price || orderDetails.sellingPrice || orderDetails.amount || 0}</td>
                 </tr>
@@ -146,7 +152,6 @@ const StudentPaymentStatus = () => {
               <p>This is a computer-generated receipt and does not require a physical signature.</p>
             </div>
 
-            {/* Print Button (Print ke waqt hide ho jayega) */}
             <div className="invoice-actions no-print">
               <button onClick={handlePrint} className="btn-print-bill">
                 <MdPrint style={{ marginRight: '6px' }} /> Print / Download Bill

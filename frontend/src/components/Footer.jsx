@@ -8,7 +8,6 @@ const Footer = () => {
 
   return (
     <footer className="footer-container">
-      {/* Red Social Media Bar */}
       <div className="footer-social-bar">
         <a href="https://facebook.com/itszaidsidd" target="_blank" rel="noopener noreferrer" className="social-link">
           <FaFacebook style={{ marginRight: '6px' }} /> Facebook
@@ -24,7 +23,6 @@ const Footer = () => {
         </a>
       </div>
 
-      {/* Main Footer Links Content */}
       <div className="footer-content">
         <div className="footer-section">
           <h3>About Us</h3>
@@ -53,7 +51,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright & Admin Login (Aapka purana code secured rakha gaya hai) */}
       <div className="footer-bottom">
         <p>
           Copyright &copy; 2025 || Designed By Zaid Siddiqui || <span onClick={() => { navigate('/admin'); }} className="admin-login-link">Admin Login</span>

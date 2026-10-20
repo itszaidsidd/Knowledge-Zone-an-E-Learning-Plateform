@@ -56,7 +56,6 @@ const Feedback = () => {
                   const message = item.feedbackText || item.message || item.comment || "";
                   
                   const imgUrl = item.student.profilePicUrl;
-                  // const imgUrl =  `${API_BASE_URL}${item.student.profilePicUrl}`;
 
                   return (
                     <div 

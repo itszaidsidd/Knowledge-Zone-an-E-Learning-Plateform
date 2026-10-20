@@ -7,7 +7,7 @@ import './StudentAuth.css';
 import {API_BASE_URL} from '../apiConfig'
 
 const StudentLogin = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors,isSubmitting } } = useForm();
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ const StudentLogin = () => {
         localStorage.setItem("studentUsername", studentData.username);
         localStorage.setItem("studentName", studentData.name || '');
 
-        // alert("Login Successful!");
         navigate('/');
         window.location.reload();
       } else {
@@ -86,7 +85,9 @@ const StudentLogin = () => {
           {errors.password && <span style={{ color: '#f87171', fontSize: '12px' }}>{errors.password.message}</span>}
         </div>
 
-        <button type="submit" className="auth-btn">Login</button>
+        <button type="submit" disabled={isSubmitting} className="auth-btn">
+          {isSubmitting?"Loading":"Login"}
+          </button>
 
         <p className="auth-redirect">
           Don't have an account? <Link to="/student/signup">Sign up</Link>

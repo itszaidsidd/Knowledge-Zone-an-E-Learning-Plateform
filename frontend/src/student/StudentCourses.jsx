@@ -21,7 +21,6 @@ const StudentCourses = () => {
       }
 
       try {
-        // 1. Fetch student orders by username/email
         let orderRes = await fetch(`${API_BASE_URL}/order/student-orders/${studentEmail}`);
         if (!orderRes.ok) {
           console.error("Failed to fetch student orders");
@@ -42,7 +41,6 @@ const StudentCourses = () => {
         let allCourses = await courseRes.json();
         console.log("All Courses from server:", allCourses);
 
-        // 3. Filter only purchased courses
         let myCourses = allCourses.filter(course => purchasedCourseIds.includes(Number(course.id)));
         console.log("Matched Purchased Courses:", myCourses);
         
@@ -56,7 +54,6 @@ const StudentCourses = () => {
     fetchStudentCourses();
   }, [studentEmail]);
 
-  // Search filter logic
   const filteredCourses = purchasedCourses.filter(course => 
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -66,7 +63,6 @@ const StudentCourses = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>My Purchased Courses</h2>
         
-        {/* React Hook Form Search Input */}
         <input 
           type="text" 
           placeholder="Search my courses..." 
@@ -78,7 +74,6 @@ const StudentCourses = () => {
       {filteredCourses.length > 0 ? (
         filteredCourses.map(course => (
           <div key={course.id} className="course-card-item">
-            {/* <img src={course.imgUrl ? `${API_BASE_URL}${course.imgUrl}` : ""} alt="Course" /> */}
             <img src={course.imgUrl ? course.imgUrl : ""} alt="Course" />
             <div className="course-info" style={{ flex: 1 }}>
               <h3>{course.title}</h3>
