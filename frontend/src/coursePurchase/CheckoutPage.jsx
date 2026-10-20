@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './CoursePurchaseStyle.css';
+import {API_BASE_URL} from '../apiConfig'
 
 const CheckoutPage = () => {
   const { register, handleSubmit, setValue } = useForm();
@@ -15,7 +16,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     const fetchOrderId = async () => {
       try {
-        let res = await fetch(`http://localhost:8080/order/generate-order-id`);
+        let res = await fetch(`${API_BASE_URL}/order/generate-order-id`);
         if (res.ok) {
           let orderId = await res.text();
           setValue("orderId", orderId);
@@ -43,7 +44,7 @@ const CheckoutPage = () => {
         }
       };
 
-      let res = await fetch(`http://localhost:8080/order/save`, {
+      let res = await fetch(`${API_BASE_URL}/order/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderPayload)

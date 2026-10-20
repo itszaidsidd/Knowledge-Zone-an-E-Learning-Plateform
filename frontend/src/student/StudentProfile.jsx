@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentProfile = ({ student: initialStudent }) => {
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, 
+    handleSubmit,
+     setValue ,
+     formState:{isSubmitting}
+    } = useForm({
     defaultValues: {
       id: initialStudent?.id || '',
       username: initialStudent?.username || '',
@@ -14,7 +19,6 @@ const StudentProfile = ({ student: initialStudent }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const studentId = localStorage.getItem("studentId");
 
-  // Jab initialStudent props update ho toh form values bhi sync ho jayein
   useEffect(() => {
     if (initialStudent) {
       setValue("id", initialStudent.id);
@@ -26,7 +30,7 @@ const StudentProfile = ({ student: initialStudent }) => {
 
   const onSubmit = async (data) => {
     try {
-      let response = await fetch(`http://localhost:8080/student/update/${studentId}`, {
+      let response = await fetch(`${API_BASE_URL}/student/update/${studentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -40,7 +44,7 @@ const StudentProfile = ({ student: initialStudent }) => {
           const formData = new FormData();
           formData.append("file", selectedFile);
           
-          let picResponse = await fetch(`http://localhost:8080/student/upload-pic/${studentId}`, {
+          let picResponse = await fetch(`${API_BASE_URL}/student/upload-pic/${studentId}`, {
             method: 'POST',
             body: formData
           });
@@ -95,7 +99,7 @@ const StudentProfile = ({ student: initialStudent }) => {
           <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
         </div>
 
-        <button type="submit" className="btn-primary-student">Update</button>
+        <button type="submit" disabled={isSubmitting} style={{background:isSubmitting?'gray':'blue'}} className="btn-primary-student">Update</button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const AddNewStudent = () => {
     const navigate = useNavigate();
@@ -9,7 +10,7 @@ const AddNewStudent = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors,isSubmitting },
     } = useForm();
 
     const onSubmit = async (data) => {
@@ -23,7 +24,7 @@ const AddNewStudent = () => {
         console.log("Sending Student Data:", studentData);
 
         try {
-            let response = await fetch('http://localhost:8080/student/signup', {
+            let response = await fetch(`${API_BASE_URL}/student/signup`, {
                 method: 'POST',
                 body: JSON.stringify(studentData),
                 headers: {
@@ -69,8 +70,10 @@ const AddNewStudent = () => {
                 </div>
 
                 <div className="btns">
-                    <button type="submit" className='submit'>Submit</button>
-                    <button type="button" className='close' onClick={() => navigate("/admin/student")}>Close</button>
+                    <button type="submit" className='submit' disabled={isSubmitting}>
+                        {isSubmitting?'Uploading':'Submit'}
+                        </button>
+                    <button type="button" className='close' disabled={isSubmitting} onClick={() => navigate("/admin/student")}>Close</button>
                 </div>
             </form>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const AddNewCourse = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const AddNewCourse = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors,isSubmitting },
   } = useForm()
 
   const onSubmit = async (data) => {
@@ -26,7 +27,7 @@ const AddNewCourse = () => {
     console.log("Sending Course Data:", courseData);
 
     try {
-      let response = await fetch('http://localhost:8080/course', {
+      let response = await fetch(`${API_BASE_URL}/course`, {
         method: 'POST',
         body: JSON.stringify(courseData),
         headers: {
@@ -47,7 +48,7 @@ const AddNewCourse = () => {
         const formData = new FormData();
         formData.append("file", data.imgUrl[0]);
 
-        let imageResponse = await fetch(`http://localhost:8080/course/${courseId}/upload-image`, {
+        let imageResponse = await fetch(`${API_BASE_URL}/course/${courseId}/upload-image`, {
           method: 'POST',
           body: formData 
         });
@@ -95,8 +96,10 @@ const AddNewCourse = () => {
         Course Image
         <input type="file" {...register('imgUrl', { required: true })} required />
         <div className="btns">
-          <button type="submit" className='submit'>Submit</button>
-          <button type="button" className='close' onClick={() => navigate("/admin/course")}>Close</button>
+          <button type="submit" disabled={isSubmitting} className='submit'>
+            {isSubmitting?'Uploading':'Submit'}
+            </button>
+          <button type="button" className='close' disabled={isSubmitting} onClick={() => navigate("/admin/course")}>Close</button>
         </div>
       </form>
     </div>

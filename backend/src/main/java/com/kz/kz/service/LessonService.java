@@ -31,10 +31,6 @@ public class LessonService {
         return lessonRepository.findById(id).orElse(null);
     }
 
-    // public Lesson updateLesson(Long id, Lesson lesson) {
-    //     lesson.setId(id);
-    //     return lessonRepository.save(lesson);
-    // }
 
     public Lesson updateLesson(Long id, Lesson newLesson) {
         Optional<Lesson> optionalLesson = lessonRepository.findById(id);

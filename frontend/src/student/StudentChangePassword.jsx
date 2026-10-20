@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentChangePassword = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -7,7 +8,7 @@ const StudentChangePassword = () => {
 
   const onSubmit = async (data) => {
     try {
-      let res = await fetch(`http://localhost:8080/student/change-password/${studentId}`, {
+      let res = await fetch(`${API_BASE_URL}/student/change-password/${studentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

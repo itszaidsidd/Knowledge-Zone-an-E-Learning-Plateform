@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MdDelete } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -8,7 +9,7 @@ const Feedback = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        let response = await fetch('http://localhost:8080/feedback/all', {
+        let response = await fetch(`${API_BASE_URL}/feedback/all`, {
           method: 'GET'
         });
         if (response.ok) {
@@ -28,7 +29,7 @@ const Feedback = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this feedback?")) {
       try {
-        let response = await fetch(`http://localhost:8080/feedback/delete/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/feedback/delete/${id}`, {
           method: 'DELETE',
         });
 

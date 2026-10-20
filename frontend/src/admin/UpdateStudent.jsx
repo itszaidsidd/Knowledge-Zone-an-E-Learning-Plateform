@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const UpdateStudent = () => {
     const navigate = useNavigate();
@@ -11,14 +12,14 @@ const UpdateStudent = () => {
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm();
 
     useEffect(() => {
         console.log("Student ID to update:", id);
         const fetchStudentData = async () => {
             try {
-                let response = await fetch(`http://localhost:8080/student/${id}`);
+                let response = await fetch(`${API_BASE_URL}/student/${id}`);
                 if (response.ok) {
                     let student = await response.json();
                     reset({
@@ -46,7 +47,7 @@ const UpdateStudent = () => {
         console.log("Updating Student Data:", updatedStudentData);
 
         try {
-            let response = await fetch(`http://localhost:8080/student/update/${id}`, {
+            let response = await fetch(`${API_BASE_URL}/student/update/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updatedStudentData),
                 headers: {
@@ -92,8 +93,10 @@ const UpdateStudent = () => {
                 </div>
 
                 <div className="btns">
-                    <button type="submit" className='submit'>Update</button>
-                    <button type="button" className='close' onClick={() => navigate("/admin/student")}>Close</button>
+                    <button type="submit" className='submit' disabled={isSubmitting}>
+                        {isSubmitting?'Uploading':'Update'}
+                        </button>
+                    <button type="button" className='close' disabled={isSubmitting} onClick={() => navigate("/admin/student")}>Close</button>
                 </div>
             </form>
         </div>

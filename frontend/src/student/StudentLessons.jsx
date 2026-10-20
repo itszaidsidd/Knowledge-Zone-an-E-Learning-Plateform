@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from '../apiConfig'
+
 
 const StudentLessons = () => {
   const { courseId } = useParams();
@@ -8,21 +10,21 @@ const StudentLessons = () => {
   const [currentVideo, setCurrentVideo] = useState('');
   const navigate = useNavigate();
 
+  
+
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        // Fetch lessons for the course
-        let lessonRes = await fetch(`http://localhost:8080/lesson/course/${courseId}`);
+        let lessonRes = await fetch(`${API_BASE_URL}/lesson/course/${courseId}`);
         if (lessonRes.ok) {
           let lessonData = await lessonRes.json();
           setLessons(lessonData);
-          if (lessonData.length > 0) {
-            setCurrentVideo(`http://localhost:8080${lessonData[0].videoUrl}`);
+          if (lessonData.length > 0 && lessonData[0].videoUrl) {
+            setCurrentVideo(lessonData[0].videoUrl);
           }
         }
 
-        // Fetch course details for the title
-        let courseRes = await fetch(`http://localhost:8080/course`);
+        let courseRes = await fetch(`${API_BASE_URL}/course`);
         if (courseRes.ok) {
           let courseData = await courseRes.json();
           const found = courseData.find(c => c.id == courseId);
@@ -54,7 +56,11 @@ const StudentLessons = () => {
             <div 
               key={lesson.id} 
               className="lesson-item" 
-              onClick={() => setCurrentVideo(`http://localhost:8080${lesson.videoUrl}`)}
+              onClick={() => {
+                if (lesson.videoUrl) {
+                  setCurrentVideo(lesson.videoUrl);
+                }
+              }}
             >
               {lesson.title}
             </div>
@@ -62,7 +68,7 @@ const StudentLessons = () => {
         </div>
         <div className="lesson-video-player">
           {currentVideo ? (
-            <video controls src={currentVideo} key={currentVideo} autoPlay />
+            <video controls src={currentVideo} key={currentVideo} autoPlay style={{ width: '100%', maxHeight: '500px' }} />
           ) : (
             <p style={{ color: '#fff' }}>No video available for this lesson</p>
           )}

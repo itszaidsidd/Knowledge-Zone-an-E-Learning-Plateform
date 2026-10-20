@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './CoursePurchaseStyle.css';
 import Navbar from "../components/Navbar"
 import Footer from '../components/Footer'
+import {API_BASE_URL} from '../apiConfig'
 
 const CourseDetail = () => {
   const { courseId } = useParams();
@@ -13,14 +14,14 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        let courseRes = await fetch(`http://localhost:8080/course`);
+        let courseRes = await fetch(`${API_BASE_URL}/course`);
         if (courseRes.ok) {
           let courses = await courseRes.json();
           let found = courses.find(c => c.id == courseId);
           if (found) setCourse(found);
         }
 
-        let lessonRes = await fetch(`http://localhost:8080/lesson/course/${courseId}`);
+        let lessonRes = await fetch(`${API_BASE_URL}/lesson/course/${courseId}`);
         if (lessonRes.ok) {
           let lessonData = await lessonRes.json();
           setLessons(lessonData);
@@ -55,7 +56,7 @@ const CourseDetail = () => {
         {/* Course Detail Card */}
         <div className="course-detail-card">
           <img
-            src={course.imgUrl ? `http://localhost:8080${course.imgUrl}` : "https://via.placeholder.com/250"}
+            src={course.imgUrl ? course.imgUrl : "https://via.placeholder.com/250"}
             alt="Course"
             className="course-detail-img"
           />

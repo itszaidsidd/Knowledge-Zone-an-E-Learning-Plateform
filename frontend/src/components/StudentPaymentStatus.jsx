@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import './StudentPaymentStatusStyle.css'
 import { MdSearch, MdPrint } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentPaymentStatus = () => {
   const [orderIdInput, setOrderIdInput] = useState('');
@@ -24,7 +25,7 @@ const StudentPaymentStatus = () => {
 
     try {
       // Saare orders fetch karke matching order dhoondh rahe hain (ya aap backend par /order/{orderId} endpoint bhi bana sakte hain)
-      let response = await fetch('http://localhost:8080/order');
+      let response = await fetch(`${API_BASE_URL}/order`);
       if (response.ok) {
         let orders = await response.json();
         // Order ID match karna (case-insensitive)

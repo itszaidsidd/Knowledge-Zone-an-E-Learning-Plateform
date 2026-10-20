@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { IoArrowBack } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import './StudentAuth.css';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentLogin = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -14,7 +15,7 @@ const StudentLogin = () => {
   const onSubmit = async (data) => {
     setError('');
     try {
-      let response = await fetch('http://localhost:8080/student/login', {
+      let response = await fetch(`${API_BASE_URL}/student/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: data.username, password: data.password })

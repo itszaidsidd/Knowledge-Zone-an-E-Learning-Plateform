@@ -1,6 +1,7 @@
 import React from 'react'
 import vid from "../assets/bg-content/video2.mp4"
 import { useNavigate } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const Hero = () => {
   const navigate = useNavigate();

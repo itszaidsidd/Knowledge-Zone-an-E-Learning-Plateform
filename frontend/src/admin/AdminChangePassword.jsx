@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from '../apiConfig'
 
 const AdminChangePassword = () => {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const AdminChangePassword = () => {
     formState: { errors },
   } = useForm();
 
-  // Confirm password match karne ke liye new password watch karna
   const newPassword = watch("newPassword");
 
   const onSubmit = async (data) => {
@@ -36,7 +36,7 @@ const AdminChangePassword = () => {
     console.log("Changing password for Admin Username:", adminUsername);
 
     try {
-      let response = await fetch(`http://localhost:8080/admin/change-password/${adminUsername}`, {
+      let response = await fetch(`${API_BASE_URL}/admin/change-password/${adminUsername}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const AddNewLesson = () => {
   const navigate = useNavigate();
@@ -9,14 +10,13 @@ const AddNewLesson = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting},
   } = useForm();
 
-  // 1. Courses ki list fetch karna dropdown ke liye
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        let res = await fetch('http://localhost:8080/course');
+        let res = await fetch(`${API_BASE_URL}/course`);
         let data = await res.json();
         setCourses(data);
       } catch (error) {
@@ -30,15 +30,14 @@ const AddNewLesson = () => {
     const lessonData = {
       title: data.title,
       description: data.description,
-      videoUrl: "", // Shuru me empty rahega, upload hone ke baad update hoga
+      videoUrl: "", 
       courseId: Number(data.courseId)
     };
 
     console.log("Sending Lesson Data:", lessonData);
 
     try {
-      // Step 2: Pehle Lesson ka JSON data save karein aur ID prapt karein
-      let response = await fetch('http://localhost:8080/lesson', {
+      let response = await fetch(`${API_BASE_URL}/lesson`, {
         method: 'POST',
         body: JSON.stringify(lessonData),
         headers: {
@@ -55,12 +54,11 @@ const AddNewLesson = () => {
       let lessonId = savedLesson.id;
       console.log("Lesson saved successfully with ID:", lessonId);
 
-      // Step 3: Agar video file select ki gayi hai, toh use upload-video par bhejein
       if (data.videoFile && data.videoFile[0]) {
         const formData = new FormData();
         formData.append("file", data.videoFile[0]);
 
-        let videoResponse = await fetch(`http://localhost:8080/lesson/${lessonId}/upload-video`, {
+        let videoResponse = await fetch(`${API_BASE_URL}/lesson/${lessonId}/upload-video`, {
           method: 'POST',
           body: formData 
         });
@@ -69,8 +67,7 @@ const AddNewLesson = () => {
         console.log(videoResultText);
       }
 
-      // Complete hone ke baad lessons list page par redirect karein
-      navigate('/admin/lesson'); // Agar aapka route /admin/lessons hai
+      navigate('/admin/lesson'); 
 
     } catch (error) {
       console.error("Error during submission:", error);
@@ -102,8 +99,10 @@ const AddNewLesson = () => {
         <input type="file" {...register('videoFile', { required: true })} required accept="video/*" />
         
         <div className="btns">
-          <button type="submit" className='submit'>Submit</button>
-          <button type="button" className='close' onClick={() => navigate("/admin/lessons")}>Close</button>
+          <button type="submit" className='submit' disabled={isSubmitting}>
+            {isSubmitting?'Uploading':'Submit'}
+            </button>
+          <button type="button" className='close' disabled={isSubmitting} onClick={() => navigate("/admin/lesson")}>Close</button>
         </div>
       </form>
     </div>

@@ -7,6 +7,7 @@ import StudentLessons from './StudentLessons';
 import StudentFeedback from './StudentFeedback';
 import StudentChangePassword from './StudentChangePassword';
 import './StudentPanelStyle.css';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentPanel = () => {
   const [student, setStudent] = useState({ name: '', username: '', designation: '', profilePicUrl: '' });
@@ -18,7 +19,7 @@ const StudentPanel = () => {
     const fetchStudentDetails = async () => {
       if (studentId) {
         try {
-          let response = await fetch(`http://localhost:8080/student/${studentId}`);
+          let response = await fetch(`${API_BASE_URL}/student/${studentId}`);
           if (response.ok) {
             let data = await response.json();
             setStudent(data);
@@ -42,7 +43,7 @@ const StudentPanel = () => {
       <div className="student-sidebar">
         <div className="student-avatar-container">
           <img 
-            src={student?.profilePicUrl ? `http://localhost:8080${student.profilePicUrl}` : "https://via.placeholder.com/120"} 
+            src={student?.profilePicUrl ? student.profilePicUrl : "https://via.placeholder.com/120"} 
             alt="Profile" 
             className="student-avatar" 
           />
@@ -82,12 +83,11 @@ const StudentPanel = () => {
               window.location.reload();
             }}
           >
-            <FaSignOutAlt /> Logout / Back
+            <FaSignOutAlt />  Back
           </button>
         </div>
       </div>
 
-      {/* Dynamic Nested Content Area */}
       <div className="student-content">
         <Routes>
           <Route path="profile" element={<StudentProfile student={student} />} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {API_BASE_URL} from '../apiConfig'
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const AdminLogin = () => {
 
   const onSubmit = async (data) => {
     try {
-      let response = await fetch('http://localhost:8080/admin/login', {
+      let response = await fetch(`${API_BASE_URL}/admin/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

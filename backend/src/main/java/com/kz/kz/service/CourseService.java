@@ -16,14 +16,7 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    // public Boolean saveEntry(Course course){
-    // try {
-    // courseRepository.save(course);
-    // return true;
-    // } catch (Exception e) {
-    // return false;
-    // }
-    // }
+  
 
     public List<Course> getAll() {
         return courseRepository.findAll();
@@ -37,10 +30,7 @@ public class CourseService {
         return courseRepository.findById(id).orElse(null);
     }
 
-    // public Course updateCourse(Long id, Course course) {
-    //     course.setId(id);
-    //     return courseRepository.save(course);
-    // }
+
 
     public Course updateCourse(Long id, Course newCourse) {
         Optional<Course> optionalCourse = courseRepository.findById(id);

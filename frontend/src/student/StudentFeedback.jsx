@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentFeedback = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -7,7 +8,7 @@ const StudentFeedback = () => {
 
   const onSubmit = async (data) => {
     try {
-      let res = await fetch(`http://localhost:8080/feedback/add/${studentId}`, {
+      let res = await fetch(`${API_BASE_URL}/feedback/add/${studentId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: data.message })

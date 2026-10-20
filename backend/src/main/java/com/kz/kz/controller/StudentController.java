@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.kz.kz.entity.Student;
 import com.kz.kz.repository.StudentRepository;
+import com.kz.kz.service.CloudinaryService;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,10 +25,12 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
-    // 1. Student Signup
+    // @Value("${file.upload-dir}")
+    // private String uploadDir;
+
     @PostMapping("/signup")
     public ResponseEntity<String> registerStudent(@RequestBody Student student) {
         if(studentRepository.findByUsername(student.getUsername()) != null) {
@@ -37,7 +40,6 @@ public class StudentController {
         return ResponseEntity.ok("Signup Successful");
     }
 
-    // 2. Student Login
     @PostMapping("/login")
     public ResponseEntity<Student> loginStudent(@RequestBody Student loginData) {
         Student student = studentRepository.findByUsername(loginData.getUsername());
@@ -47,7 +49,6 @@ public class StudentController {
         return ResponseEntity.status(401).build();
     }
 
-    // 3. Get Student Details by ID (Profile page ke liye)
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
         Optional<Student> student = studentRepository.findById(id);
@@ -55,7 +56,6 @@ public class StudentController {
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // 4. Update Student Profile Details (Name, Designation etc.)
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateStudentProfile(@PathVariable Long id, @RequestBody Student updatedData) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
@@ -71,7 +71,6 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    // 5. Separate API for Profile Picture Upload (Jaise course/lesson me kiya tha)
     @PostMapping("/upload-pic/{id}")
     public ResponseEntity<String> uploadProfilePic(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
@@ -79,28 +78,53 @@ public class StudentController {
         if(optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
             try {
-                File dir = new File(uploadDir);
-                if (!dir.exists()) {
-                    dir.mkdirs();
+                // Cloudinary par image upload karke live HTTPS URL lein
+                String profilePicUrl = cloudinaryService.uploadImage(file);
+
+                if (profilePicUrl != null) {
+                    student.setProfilePicUrl(profilePicUrl);
+                    studentRepository.save(student);
+                    return ResponseEntity.ok("Profile picture uploaded successfully to Cloudinary!");
+                } else {
+                    return ResponseEntity.status(400).body("File is empty or invalid");
                 }
 
-                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                Path filePath = Paths.get(uploadDir, fileName);
-                Files.write(filePath, file.getBytes());
-
-                student.setProfilePicUrl("/uploads/" + fileName);
-                studentRepository.save(student);
-                
-                return ResponseEntity.ok("Profile picture uploaded successfully");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                return ResponseEntity.status(500).body("Failed to upload profile picture");
+                return ResponseEntity.status(500).body("Failed to upload profile picture: " + e.getMessage());
             }
         }
         return ResponseEntity.notFound().build();
     }
+    
+    // @PostMapping("/upload-pic/{id}")
+    // public ResponseEntity<String> uploadProfilePic(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    //     Optional<Student> optionalStudent = studentRepository.findById(id);
+        
+    //     if(optionalStudent.isPresent()) {
+    //         Student student = optionalStudent.get();
+    //         try {
+    //             File dir = new File(uploadDir);
+    //             if (!dir.exists()) {
+    //                 dir.mkdirs();
+    //             }
 
-    // 6. Change Password
+    //             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+    //             Path filePath = Paths.get(uploadDir, fileName);
+    //             Files.write(filePath, file.getBytes());
+
+    //             student.setProfilePicUrl("/uploads/" + fileName);
+    //             studentRepository.save(student);
+                
+    //             return ResponseEntity.ok("Profile picture uploaded successfully");
+    //         } catch (IOException e) {
+    //             e.printStackTrace();
+    //             return ResponseEntity.status(500).body("Failed to upload profile picture");
+    //         }
+    //     }
+    //     return ResponseEntity.notFound().build();
+    // }
+
     @PutMapping("/change-password/{id}")
     public ResponseEntity<String> changePassword(@PathVariable Long id, @RequestBody PasswordChangeRequest request) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
@@ -119,7 +143,6 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    // 7. Delete Student (Admin panel se delete karne ke liye)
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         if(studentRepository.existsById(id)) {
@@ -129,14 +152,12 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    // 8. Get All Students (Admin panel list ke liye)
     @GetMapping("/all")
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 }
 
-// Helper class for Password Change request payload
 class PasswordChangeRequest {
     private String oldPassword;
     private String newPassword;

@@ -42,7 +42,6 @@ public class FeedbackController {
         return feedbackRepository.findAll();
     }
 
-    // Delete Feedback API
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteFeedback(@PathVariable Long id) {
         if(feedbackRepository.existsById(id)) {

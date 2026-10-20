@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {API_BASE_URL} from '../apiConfig'
 
 const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -10,7 +11,7 @@ const Feedback = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        let response = await fetch('http://localhost:8080/feedback/all', {
+        let response = await fetch(`${API_BASE_URL}/feedback/all`, {
           method: 'GET'
         });
         
@@ -54,7 +55,8 @@ const Feedback = () => {
                   const designation = item.designation || item.role || item.student?.designation || "Student";
                   const message = item.feedbackText || item.message || item.comment || "";
                   
-                  const imgUrl =  `http://localhost:8080${item.student.profilePicUrl}`;
+                  const imgUrl = item.student.profilePicUrl;
+                  // const imgUrl =  `${API_BASE_URL}${item.student.profilePicUrl}`;
 
                   return (
                     <div 

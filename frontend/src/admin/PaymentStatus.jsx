@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MdDelete, MdSearch } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const PaymentStatus = () => {
   const [payments, setPayments] = useState([]);
@@ -10,7 +11,7 @@ const PaymentStatus = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        let response = await fetch('http://localhost:8080/order', {
+        let response = await fetch(`${API_BASE_URL}/order`, {
           method: 'GET'
         });
         
@@ -49,7 +50,7 @@ const PaymentStatus = () => {
   const handleDeletePayment = async (id) => {
     if (window.confirm("Are you sure you want to delete this payment record?")) {
       try {
-        let response = await fetch(`http://localhost:8080/order/delete/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/order/delete/${id}`, {
           method: 'DELETE',
         });
 

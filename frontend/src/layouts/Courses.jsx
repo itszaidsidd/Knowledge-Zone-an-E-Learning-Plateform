@@ -4,6 +4,7 @@ import Card from '../components/Card'
 import { FaBookReader, FaChalkboardTeacher, FaInfinity, FaShieldAlt } from "react-icons/fa";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import {API_BASE_URL} from '../apiConfig'
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
@@ -11,7 +12,7 @@ const Courses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                let response = await fetch('http://localhost:8080/course');
+                let response = await fetch(`${API_BASE_URL}/course`);
                 if (response.ok) {
                     let data = await response.json();
                     setCourses(data);
@@ -41,7 +42,7 @@ const Courses = () => {
                                     id={course.id}
                                     title={course.title}
                                     content={course.description}
-                                    cardImg={course.imgUrl ? `http://localhost:8080${course.imgUrl}` : ""}
+                                    cardImg={course.imgUrl ? course.imgUrl  : ""}
                                     price={course.sellingPrice}
                                     originalPrice={course.originalPrice}
                                 />

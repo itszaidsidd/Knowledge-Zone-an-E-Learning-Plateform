@@ -1,10 +1,8 @@
 package com.kz.kz.controller;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kz.kz.entity.Lesson;
+import com.kz.kz.service.CloudinaryService;
 import com.kz.kz.service.LessonService;
 
 @RestController
@@ -29,8 +28,8 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public List<Lesson> getAllLessons() {
@@ -49,23 +48,22 @@ public class LessonController {
     @PostMapping("/{id}/upload-video")
     public ResponseEntity<String> uploadVideo(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            File destinationFile = new File(directory.getAbsolutePath() + File.separator + fileName);
-            file.transferTo(destinationFile);
-
+            // Check karein ki lesson exist karta hai ya nahi
             Lesson lesson = lessonService.getLessonById(id);
-            if (lesson != null) {
-                lesson.setVideoUrl("/uploads/" + fileName);
-                lessonService.addLesson(lesson);
-                return ResponseEntity.ok("Video uploaded successfully");
+            if (lesson == null) {
+                return ResponseEntity.status(404).body("Lesson not found with id: " + id);
             }
 
-            return ResponseEntity.status(404).body("Lesson not found with id: " + id);
+            // Cloudinary par video upload karke secure HTTPS URL lein
+            String videoUrl = cloudinaryService.uploadImage(file);
+
+            if (videoUrl != null) {
+                lesson.setVideoUrl(videoUrl);
+                lessonService.addLesson(lesson);
+                return ResponseEntity.ok("Video uploaded successfully to Cloudinary!");
+            } else {
+                return ResponseEntity.status(400).body("File is empty or invalid");
+            }
 
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());

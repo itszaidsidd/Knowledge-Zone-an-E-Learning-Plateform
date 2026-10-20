@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdDelete } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -13,19 +14,19 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const courseRes = await fetch('http://localhost:8080/course');
+        const courseRes = await fetch(`${API_BASE_URL}/course`);
         if (courseRes.ok) {
           const courses = await courseRes.json();
           setStats(prev => ({ ...prev, totalCourses: courses.length }));
         }
 
-        const studentRes = await fetch('http://localhost:8080/student/all'); 
+        const studentRes = await fetch(`${API_BASE_URL}/student/all`); 
         if (studentRes.ok) {
           const students = await studentRes.json();
           setStats(prev => ({ ...prev, totalStudents: students.length }));
         }
 
-        const orderRes = await fetch('http://localhost:8080/order'); 
+        const orderRes = await fetch(`${API_BASE_URL}/order`); 
         if (orderRes.ok) {
           const orderData = await orderRes.json();
           setOrders(orderData);
@@ -39,16 +40,14 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Order delete karne ka function
   const handleDeleteOrder = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-        let response = await fetch(`http://localhost:8080/order/delete/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/order/delete/${id}`, {
           method: 'DELETE',
         });
 
         if (response.ok) {
-          // UI se order remove karna aur stats (totalSold) update karna
           const updatedOrders = orders.filter(order => order.id !== id);
           setOrders(updatedOrders);
           setStats(prev => ({ ...prev, totalSold: updatedOrders.length }));
@@ -104,7 +103,6 @@ const Dashboard = () => {
                 <td>{order.orderDate ? new Date(order.orderDate).toLocaleDateString() : 'N/A'}</td>
                 <td>₹{order.amount}</td>
                 <td>
-                  {/* Delete Icon / Button */}
                   <button 
                     onClick={() => handleDeleteOrder(order.id)} 
                     title="Delete Order"

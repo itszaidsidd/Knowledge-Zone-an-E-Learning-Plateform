@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {API_BASE_URL} from '../apiConfig'
 
 const SalesReport = () => {
   const [sales, setSales] = useState([]);
@@ -11,7 +12,7 @@ const SalesReport = () => {
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
-        let response = await fetch('http://localhost:8080/order', {
+        let response = await fetch(`${API_BASE_URL}/order`, {
           method: 'GET'
         });
         
@@ -20,7 +21,6 @@ const SalesReport = () => {
           setSales(result);
           setFilteredSales(result);
 
-          // Total revenue calculate karna
           calculateRevenue(result);
         } else {
           setError("Failed to fetch sales report.");
@@ -34,13 +34,11 @@ const SalesReport = () => {
     fetchSalesData();
   }, []);
 
-  // Revenue calculate karne ka helper function
   const calculateRevenue = (data) => {
     let revenue = data.reduce((sum, item) => sum + (item.price || item.sellingPrice || item.amount || 0), 0);
     setTotalRevenue(revenue);
   };
 
-  // Date Range Filter handle karne ka function
   const handleFilter = (start, end, currentSales) => {
     const listToFilter = currentSales || sales;
     
@@ -81,7 +79,6 @@ const SalesReport = () => {
     handleFilter(startDate, val, sales);
   };
 
-  // Filter Reset karne ke liye function
   const handleReset = () => {
     setStartDate('');
     setEndDate('');
@@ -89,7 +86,6 @@ const SalesReport = () => {
     calculateRevenue(sales);
   };
 
-  // Date ko clean format (YYYY-MM-DD) mein dikhane ke liye function
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
@@ -107,11 +103,9 @@ const SalesReport = () => {
     <div>
       {error && <div className='error-alert'>{error}</div>}
 
-      {/* Header, Total Revenue & Date Range Filter */}
       <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
         <h2>Total Sales & Revenue: ₹{totalRevenue.toLocaleString()}</h2>
         
-        {/* Date Range Inputs */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <label style={{ fontWeight: 'bold', color: '#225470', fontSize: '14px' }}>From:</label>

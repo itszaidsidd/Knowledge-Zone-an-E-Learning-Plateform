@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { FaBookReader, FaChalkboardTeacher, FaInfinity, FaShieldAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from '../apiConfig'
 
 const PopularCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -10,7 +11,7 @@ const PopularCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        let response = await fetch('http://localhost:8080/course');
+        let response = await fetch(`${API_BASE_URL}/course`);
         if (response.ok) {
           let data = await response.json();
           setCourses(data);
@@ -46,7 +47,7 @@ const PopularCourses = () => {
                 id={course.id}
                 title={course.title} 
                 content={course.description} 
-                cardImg={course.imgUrl ? `http://localhost:8080${course.imgUrl}` : ""} 
+                cardImg={course.imgUrl ? course.imgUrl  : ""} 
                 price={course.sellingPrice} 
                 originalPrice={course.originalPrice}
               />

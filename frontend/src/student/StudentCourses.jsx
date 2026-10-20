@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import {API_BASE_URL} from '../apiConfig'
 
 const StudentCourses = () => {
   const [purchasedCourses, setPurchasedCourses] = useState([]);
@@ -21,7 +22,7 @@ const StudentCourses = () => {
 
       try {
         // 1. Fetch student orders by username/email
-        let orderRes = await fetch(`http://localhost:8080/order/student-orders/${studentEmail}`);
+        let orderRes = await fetch(`${API_BASE_URL}/order/student-orders/${studentEmail}`);
         if (!orderRes.ok) {
           console.error("Failed to fetch student orders");
           return;
@@ -33,7 +34,7 @@ const StudentCourses = () => {
         let purchasedCourseIds = orders.map(order => Number(order.course?.id || order.courseId));
         console.log("Purchased Course IDs:", purchasedCourseIds);
 
-        let courseRes = await fetch(`http://localhost:8080/course`);
+        let courseRes = await fetch(`${API_BASE_URL}/course`);
         if (!courseRes.ok) {
           console.error("Failed to fetch all courses");
           return;
@@ -77,7 +78,8 @@ const StudentCourses = () => {
       {filteredCourses.length > 0 ? (
         filteredCourses.map(course => (
           <div key={course.id} className="course-card-item">
-            <img src={course.imgUrl ? `http://localhost:8080${course.imgUrl}` : ""} alt="Course" />
+            {/* <img src={course.imgUrl ? `${API_BASE_URL}${course.imgUrl}` : ""} alt="Course" /> */}
+            <img src={course.imgUrl ? course.imgUrl : ""} alt="Course" />
             <div className="course-info" style={{ flex: 1 }}>
               <h3>{course.title}</h3>
               <p>{course.description}</p>

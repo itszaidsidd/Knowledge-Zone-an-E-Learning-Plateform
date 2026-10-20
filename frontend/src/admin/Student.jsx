@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TiDocumentAdd } from "react-icons/ti";
 import { MdEdit, MdDelete } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const Student = () => {
   const [students, setStudents] = useState([]);
@@ -10,7 +11,7 @@ const Student = () => {
   useEffect(() => {
     let fetchStudents = async () => {
       try {
-        let result = await fetch('http://localhost:8080/student/all', {
+        let result = await fetch(`${API_BASE_URL}/student/all`, {
           method: 'GET'
         });
         result = await result.json();
@@ -22,15 +23,13 @@ const Student = () => {
     fetchStudents();
   }, []);
 
-  // Delete student function
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       try {
-        let response = await fetch(`http://localhost:8080/student/delete/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/student/delete/${id}`, {
           method: 'DELETE',
         });
         if (response.ok) {
-          // Remove from UI
           setStudents(students.filter(item => item.id !== id));
         } else {
           console.error("Failed to delete student");
@@ -63,7 +62,6 @@ const Student = () => {
                     <td>{item.name || item.username}</td>
                     <td>{item.email || item.username}</td>
                     <td>
-                      {/* Update Icon Button */}
                       <button 
                         onClick={() => navigate(`/admin/student/edit/${item.id}`)}
                         title="Update"
@@ -72,7 +70,6 @@ const Student = () => {
                         <MdEdit />
                       </button>
 
-                      {/* Delete Icon Button */}
                       <button 
                         onClick={() => handleDelete(item.id)} 
                         title="Delete"

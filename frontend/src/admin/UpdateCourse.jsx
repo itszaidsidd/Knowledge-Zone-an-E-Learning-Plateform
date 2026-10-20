@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import {API_BASE_URL} from '../apiConfig'
 
 const UpdateCourse = () => {
   const navigate = useNavigate();
@@ -10,17 +11,16 @@ const UpdateCourse = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   useEffect(() => {
     console.log(id)
     const fetchCourseData = async () => {
       try {
-        let response = await fetch(`http://localhost:8080/course/${id}`);
+        let response = await fetch(`${API_BASE_URL}/course/${id}`);
         if (response.ok) {
           let course = await response.json();
-          // react-hook-form के reset से पुराने डेटा से फॉर्म इनपुट भर जाएंगे
           reset({
             title: course.title,
             description: course.description,
@@ -51,7 +51,7 @@ const UpdateCourse = () => {
     console.log("Updating Course Data:", updatedCourseData);
 
     try {
-      let response = await fetch(`http://localhost:8080/course/${id}`, {
+      let response = await fetch(`${API_BASE_URL}/course/${id}`, {
         method: 'PUT', 
         body: JSON.stringify(updatedCourseData),
         headers: {
@@ -64,12 +64,11 @@ const UpdateCourse = () => {
         return;
       }
 
-    //   Image Update
       if (data.imgUrl && data.imgUrl[0]) {
         const formData = new FormData();
         formData.append("file", data.imgUrl[0]);
 
-        let imageResponse = await fetch(`http://localhost:8080/course/${id}/upload-image`, {
+        let imageResponse = await fetch(`${API_BASE_URL}/course/${id}/upload-image`, {
           method: 'POST',
           body: formData 
         });
@@ -121,8 +120,10 @@ const UpdateCourse = () => {
         <input type="file" {...register('imgUrl')} />
         
         <div className="btns">
-          <button type="submit" className='submit'>Update</button>
-          <button type="button" className='close' onClick={() => navigate("/admin/course")}>Close</button>
+          <button type="submit" className='submit' disabled={isSubmitting}>
+            {isSubmitting?'Uploading':'Update'}
+            </button>
+          <button type="button" className='close' disabled={isSubmitting} onClick={() => navigate("/admin/course")}>Close</button>
         </div>
       </form>
     </div>

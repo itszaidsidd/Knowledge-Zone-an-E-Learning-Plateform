@@ -22,17 +22,14 @@ public class CourseOrderController {
     @Autowired
     private CourseRepository courseRepository; // Course repository inject karein
 
-    // Generate New Order ID for Checkout
     @GetMapping("/generate-order-id")
     public ResponseEntity<String> generateOrderId() {
         String uniqueOrderId = "ORDS" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return ResponseEntity.ok(uniqueOrderId);
     }
 
-    // Save Completed Course Order (FIXED)
     @PostMapping("/save")
     public ResponseEntity<String> saveOrder(@RequestBody CourseOrder order) {
-        // Agar frontend se order object mein course ki ID ya object aa raha hai, toh ensure karein ki Course database se link ho
         if (order.getCourse() != null && order.getCourse().getId() != null) {
             Course course = courseRepository.findById(order.getCourse().getId()).orElse(null);
             if (course != null) {
@@ -55,7 +52,6 @@ public class CourseOrderController {
         return orderRepository.findAll();
     }
 
-    // Delete Course Order API
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         if(orderRepository.existsById(id)) {

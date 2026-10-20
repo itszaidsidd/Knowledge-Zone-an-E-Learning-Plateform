@@ -11,8 +11,5 @@ import java.util.List; // Yeh import hona zaroori hai
 @Repository
 public interface CourseOrderRepository extends JpaRepository<CourseOrder, Long> {
 
-    // @Query("SELECT o FROM CourseOrder o WHERE o.studentEmail = :email")
-    // List<CourseOrder> findByStudentEmail(@Param("email") String email);
-
     List<CourseOrder> findByStudentEmail(String studentEmail);
 }

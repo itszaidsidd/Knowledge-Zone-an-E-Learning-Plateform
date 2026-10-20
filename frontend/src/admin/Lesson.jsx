@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { TiDocumentAdd } from "react-icons/ti";
 import { MdEdit, MdDelete } from "react-icons/md";
+import {API_BASE_URL} from '../apiConfig'
 
 const Lesson = () => {
   const [lessons, setLessons] = useState([]);
@@ -9,11 +10,10 @@ const Lesson = () => {
   const [selectedCourseId, setSelectedCourseId] = useState('');
   const navigate = useNavigate();
 
-  // 1. Sabhi Courses fetch karna dropdown filter ke liye
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        let res = await fetch('http://localhost:8080/course');
+        let res = await fetch(`${API_BASE_URL}/course`);
         let data = await res.json();
         setCourses(data);
       } catch (error) {
@@ -23,13 +23,12 @@ const Lesson = () => {
     fetchCourses();
   }, []);
 
-  // 2. Lessons fetch karna (Agar course select hai toh uske, warna sabhi)
   useEffect(() => {
     const fetchLessons = async () => {
       try {
-        let url = 'http://localhost:8080/lesson';
+        let url = `${API_BASE_URL}/lesson`;
         if (selectedCourseId) {
-          url = `http://localhost:8080/lesson/course/${selectedCourseId}`;
+          url = `${API_BASE_URL}/lesson/course/${selectedCourseId}`;
         }
         let response = await fetch(url);
         let result = await response.json();
@@ -41,11 +40,10 @@ const Lesson = () => {
     fetchLessons();
   }, [selectedCourseId]);
 
-  // Delete lesson function
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this lesson?")) {
       try {
-        let response = await fetch(`http://localhost:8080/lesson/${id}`, {
+        let response = await fetch(`${API_BASE_URL}/lesson/${id}`, {
           method: 'DELETE',
         });
         if (response.ok) {
@@ -61,7 +59,6 @@ const Lesson = () => {
 
   return (
     <div>
-      {/* Course Filter Dropdown */}
       <div className="course-filter-dropdown">
         <label>Filter by Course:</label>
         <select 
@@ -98,7 +95,6 @@ const Lesson = () => {
                     <td>{item.title}</td>
                     <td>{item.description}</td>
                     <td>
-                      {/* Update Icon Button */}
                       <button 
                         onClick={() => navigate(`/admin/lesson/edit/${item.id}`)}
                         title="Update"
@@ -107,7 +103,6 @@ const Lesson = () => {
                         <MdEdit />
                       </button>
 
-                      {/* Delete Icon Button */}
                       <button 
                         onClick={() => handleDelete(item.id)} 
                         title="Delete"
@@ -130,7 +125,6 @@ const Lesson = () => {
         </tbody>
       </table>
 
-      {/* Floating Add New Lesson Button (+ icon) */}
       <div className="add-course">
         <Link to="/admin/addnewlesson" title="Add New Lesson">
           <TiDocumentAdd />
