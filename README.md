@@ -2,7 +2,7 @@
 
 Knowledge Zone is a production-ready, full-stack web application built to streamline online learning, course discovery, student enrollment, and digital invoice generation. The application features a responsive React frontend hosted on Vercel and a robust Spring Boot backend hosted on Render.
 
-**Live Application:** [https://knowledge-zone-an-e-learning-platef.vercel.app](https://knowledge-zone-an-e-learning-platef.vercel.app)  
+**Live Application:** [https://knowledgezone.vercel.app/](https://knowledgezone.vercel.app/)  
 **Backend API Base:** `https://knowledge-zone-an-e-learning-plateform.onrender.com`
 
 ---
