@@ -33,8 +33,6 @@ public class CourseController {
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    // @Value("${file.upload-dir}")
-    // private String uploadDir;
 
     @GetMapping
     public List<Course> getAll() {
@@ -59,11 +57,9 @@ public class CourseController {
                 return ResponseEntity.status(404).body("Course not found with id: " + id);
             }
 
-            // Cloudinary service ka uploadImage method call karke live URL lein
             String imageUrl = cloudinaryService.uploadImage(file);
 
             if (imageUrl != null) {
-                // Ab local path "/uploads/xyz.png" ki jagah direct Cloudinary ka link set hoga
                 course.setImgUrl(imageUrl);
                 courseService.addCourse(course);
                 return ResponseEntity.ok("Image uploaded successfully to Cloudinary!");
@@ -76,31 +72,6 @@ public class CourseController {
         }
     }
 
-    // @PostMapping("/{id}/upload-image")
-    // public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-    //     try {
-    //         File directory = new File(uploadDir);
-    //         if (!directory.exists()) {
-    //             directory.mkdirs();
-    //         }
-
-    //         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-    //         File destinationFile = new File(directory.getAbsolutePath() + File.separator + fileName);
-    //         file.transferTo(destinationFile);
-
-    //         Course course = courseService.getCourseById(id);
-    //         if (course != null) {
-    //             course.setImgUrl("/uploads/" + fileName);
-    //             courseService.addCourse(course);
-    //             return ResponseEntity.ok("Image uploaded successfully");
-    //         }
-
-    //         return ResponseEntity.status(404).body("Course not found with id: " + id);
-
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(500).body("Error: " + e.getMessage());
-    //     }
-    // }
 
     @GetMapping("/{id}")
     public Course getCourseById(@PathVariable Long id) {
